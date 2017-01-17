@@ -92,6 +92,8 @@ ADD ./resources/config/infrastructure/docker/conf/supervisord.conf /etc/supervis
 RUN cd /var/www/reprint/resources/config/ && cp config.yaml.example config.yaml
 RUN cd /var/www/reprint/resources/config/ && cp routes.yaml.example routes.yaml
 
+RUN chown -R www-data:www-data /var/www/reprint
+
 EXPOSE 443 80
 
 CMD ["/start.sh"]
