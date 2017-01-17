@@ -6,7 +6,7 @@ reprint:
 # blog config
 blog:
   # Choose a theme by name
-  theme: 'develop'
+  theme: 'bootstrap3-default'
   title: 'reprint'
   subtitle: 'blockchain powered blog engine'
   # Filter the content to
