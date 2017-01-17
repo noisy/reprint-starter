@@ -74,17 +74,23 @@ RUN mkdir -p /run/php &&\
     ln -s /etc/php/7.0/fpm/php.ini /etc/php/7.0/fpm/conf.d/php.ini && \
     find /etc/php/7.0/fpm/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
 
+ADD . /var/www/reprint
+RUN echo '* Installing dependencies via composer' && \
+    /usr/bin/composer install -d /var/www/reprint
+
 # Add Scripts
-ADD scripts/start.sh /start.sh
+ADD ./resources/config/infrastructure/docker/scripts/start.sh /start.sh
 RUN chmod 755 /start.sh
 
 # Copy our nginx config
 RUN rm -Rf /etc/nginx/nginx.conf
-ADD conf/nginx.conf /etc/nginx/nginx.conf
-COPY conf/vhost.conf /etc/nginx/sites-enabled/default.conf
+ADD ./resources/config/infrastructure/docker/conf/nginx.conf /etc/nginx/nginx.conf
+ADD ./resources/config/infrastructure/docker/conf/vhost.conf /etc/nginx/sites-enabled/default.conf
 
 # Services
-ADD conf/supervisord.conf /etc/supervisord.conf
+ADD ./resources/config/infrastructure/docker/conf/supervisord.conf /etc/supervisord.conf
+RUN cd /var/www/reprint/resources/config/ && cp config.yaml.example config.yaml
+RUN cd /var/www/reprint/resources/config/ && cp routes.yaml.example routes.yaml
 
 EXPOSE 443 80
 

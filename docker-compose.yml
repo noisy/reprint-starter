@@ -1,8 +1,8 @@
 version: '2'
 services:
   development:
-    build: ./resources/config/infrastructure/docker
-    volumes:
-      - .:/var/www/reprint
+    build:
+      context: .
+      dockerfile: ./resources/config/infrastructure/docker/Dockerfile
     ports:
       - "80:80"
